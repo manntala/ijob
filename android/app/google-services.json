@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893406899005",
+    "project_id": "ijob-flutter",
+    "storage_bucket": "ijob-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893406899005:android:dfa3ea6410f0559cf07354",
+        "android_client_info": {
+          "package_name": "magnezyle.ijob_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893406899005-83bpqngooou6pqil41qltohet246lo23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzfI3h_mKewIAPtp2VXiVU3_RAERWrNQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893406899005-83bpqngooou6pqil41qltohet246lo23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
