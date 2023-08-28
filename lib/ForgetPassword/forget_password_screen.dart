@@ -15,6 +15,8 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
   late Animation<double> _animation;
   late AnimationController _animationController;
 
+  final TextEditingController _forgetPassTextController = TextEditingController(text: '');
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -83,6 +85,20 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
                     fontSize: 18.0,
+                  ),
+                ),
+                const SizedBox(height: 20.0,),
+                TextField(
+                  controller: _forgetPassTextController,
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white54,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
                   ),
                 ),
               ],
