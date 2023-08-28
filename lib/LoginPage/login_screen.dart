@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ijob_flutter/Services/global_methods.dart';
-import 'package:ijob_flutter/Services/global_variables.dart';
-import 'package:ijob_flutter/SignUpPage/signup_screen.dart';
+import '../Services/global_methods.dart';
+import '../Services/global_variables.dart';
+import '../SignUpPage/signup_screen.dart';
 
 import '../ForgetPassword/forget_password_screen.dart';
 
