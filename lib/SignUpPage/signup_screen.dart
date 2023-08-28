@@ -17,11 +17,14 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
 
   final TextEditingController _fullNameController = TextEditingController(text: '');
   final TextEditingController _emailTextController = TextEditingController(text: '');
+  final TextEditingController _passTextController = TextEditingController(text: '');
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _phoneNumberFocusNode = FocusNode();
 
   final _signUpFormKey = GlobalKey<FormState>();
+  bool _obscureText = true;
   File? imageFile;
 
   @override
@@ -106,7 +109,8 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                           onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocusNode),
                           keyboardType: TextInputType.name,
                           controller: _fullNameController,
-                          validator: (value){
+                          validator: (value)
+                          {
                             if(value!.isEmpty)
                             {
                               return 'This is a required field';
@@ -137,7 +141,8 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                           onEditingComplete: () => FocusScope.of(context).requestFocus(_passwordFocusNode),
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailTextController,
-                          validator: (value){
+                          validator: (value)
+                          {
                             if(value!.isEmpty || !value.contains('@'))
                             {
                               return 'Please enter a valid email address';
@@ -162,9 +167,54 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 20.0,),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneNumberFocusNode),
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: _passTextController,
+                          obscureText: !_obscureText,
+                          validator: (value)
+                          {
+                            if(value!.isEmpty || value.length < 7)
+                            {
+                              return 'Password should be at least 7 characters';
+                            }
+                            else
+                            {
+                              return null;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            suffixIcon: GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              child: Icon(
+                                _obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.white,
+                              ),
+                            ),
+                            hintText: 'Password',
+                            hintStyle: const TextStyle(color: Colors.white),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-
                   ),
                 ],
               ),
