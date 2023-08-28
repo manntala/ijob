@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ijob_flutter/Services/global_methods.dart';
 import 'package:ijob_flutter/Services/global_variables.dart';
+import 'package:ijob_flutter/SignUpPage/signup_screen.dart';
 
 import '../ForgetPassword/forget_password_screen.dart';
 
@@ -226,6 +228,34 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40.0,),
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Do you have an account?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                const TextSpan(text: '    '),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp())),
+                                  text: 'Signup',
+                                  style: const TextStyle(
+                                    color: Colors.cyan,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ]
                             ),
                           ),
                         ),
