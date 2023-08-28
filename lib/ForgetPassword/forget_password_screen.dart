@@ -43,6 +43,7 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -57,6 +58,35 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
             height: double.infinity,
             fit: BoxFit.cover,
             alignment: FractionalOffset(_animation.value, 0),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: size.height * 0.1,
+                ),
+                const Text(
+                  'Forgot Password',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 55.0,
+                    fontFamily: 'Signatra',
+                  ),
+                ),
+                const SizedBox(height: 10.0,),
+                const Text(
+                  'Email Address',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
