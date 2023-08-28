@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import '../Services/global_variables.dart';
 
 class SignUp extends StatefulWidget {
@@ -65,15 +69,15 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
       builder: (context)
         {
           return AlertDialog(
-            title: Text('Please choose an option'),
+            title: const Text('Please choose an option'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
                   onTap: () {
-                    // create getFromCamera
+                    _getFromCamera();
                   },
-                  child: Row(
+                  child: const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(4.0),
@@ -92,9 +96,9 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                 const SizedBox(height: 10.0,),
                 InkWell(
                   onTap: () {
-                    // create getFromGallery
+                    _getFromGallery();
                   },
-                  child: Row(
+                  child: const Row(
                     children: [
                       Padding(
                         padding: EdgeInsets.all(4.0),
@@ -115,6 +119,34 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
           );
         }
     );
+  }
+
+  void _getFromCamera() async
+  {
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _getFromGallery() async
+  {
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _cropImage(filePath) async
+  {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+      sourcePath: filePath, maxHeight: 1080, maxWidth: 1080
+    );
+
+    if(croppedImage != null)
+      {
+        setState(() {
+          imageFile = File(croppedImage.path);
+        });
+      }
   }
 
   @override

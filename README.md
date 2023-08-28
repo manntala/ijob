@@ -6,6 +6,9 @@ Device used: Pixel 7 API 30 - Android 11
 features:
 1. user login
 2. create user
+3. camera capture
+4. gallery capture
+5. crop image
 
 
 ## Getting Started
