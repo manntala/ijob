@@ -18,10 +18,13 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   final TextEditingController _fullNameController = TextEditingController(text: '');
   final TextEditingController _emailTextController = TextEditingController(text: '');
   final TextEditingController _passTextController = TextEditingController(text: '');
+  final TextEditingController _phoneNumberController = TextEditingController(text: '');
+  final TextEditingController _locationController = TextEditingController(text: '');
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _phoneNumberFocusNode = FocusNode();
+  final FocusNode _positionCPFocusNode = FocusNode();
 
   final _signUpFormKey = GlobalKey<FormState>();
   bool _obscureText = true;
@@ -209,6 +212,70 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                               borderSide: BorderSide(color: Colors.white),
                             ),
                             errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0,),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
+                          keyboardType: TextInputType.phone,
+                          controller: _phoneNumberController,
+                          validator: (value)
+                          {
+                            if(value!.isEmpty)
+                            {
+                              return 'This field is required';
+                            }
+                            else
+                            {
+                              return null;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            hintText: 'Phone Number',
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0,),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
+                          keyboardType: TextInputType.text,
+                          controller: _locationController,
+                          validator: (value)
+                          {
+                            if(value!.isEmpty)
+                            {
+                              return 'This field is required';
+                            }
+                            else
+                            {
+                              return null;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            hintText: 'Company Address',
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            errorBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red),
                             ),
                           ),
