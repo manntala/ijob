@@ -1,7 +1,12 @@
 # ijob_flutter
 
-Testing Flutter App
+Job hunt flutter app
 Device used: Pixel 7 API 30 - Android 11
+
+features:
+1. user login
+2. create user
+
 
 ## Getting Started
 
