@@ -1,6 +1,7 @@
 # ijob_flutter
 
-A new Flutter project.
+Testing Flutter App
+Device used: Pixel 7 API 30 - Android 11
 
 ## Getting Started
 
