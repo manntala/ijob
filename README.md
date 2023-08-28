@@ -4,11 +4,14 @@ Job hunt flutter app
 Device used: Pixel 7 API 30 - Android 11
 
 features:
-1. user login
+1. user login/logout
 2. create user
 3. camera capture
 4. gallery capture
 5. crop image
+6. list page
+7. upload/add page
+8. search page
 
 
 ## Getting Started
