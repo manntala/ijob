@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Services/global_variables.dart';
+import '../LoginPage/login_screen.dart';
 
 class ForgetPassword extends StatefulWidget {
 
@@ -14,6 +19,8 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
 
   late Animation<double> _animation;
   late AnimationController _animationController;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController _forgetPassTextController = TextEditingController(text: '');
 
@@ -42,6 +49,29 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
     _animationController.forward();
     super.initState();
   }
+
+  void _forgetPassSubmitForm() async {
+    try {
+      await _auth.sendPasswordResetEmail(
+        email: _forgetPassTextController.text,
+      );
+
+      Fluttertoast.showToast(msg: "Password reset email sent");
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Login()));
+    } catch (error) {
+      // Handle different types of errors
+      String errorMessage = "An error occurred";
+
+      if (error is FirebaseAuthException) {
+        errorMessage = error.message ?? "An error occurred";
+      }
+
+      Fluttertoast.showToast(msg: errorMessage);
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +134,7 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                 const SizedBox(height: 60.0,),
                 MaterialButton(
                   onPressed: () {
-                    // Create ForgetPassSubmitForm
+                    _forgetPassSubmitForm();
                   },
                   color: Colors.cyan,
                   elevation: 8.0,
