@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ijob_flutter/Services/global_methods.dart';
 import 'package:ijob_flutter/Services/global_variables.dart';
 
 import '../ForgetPassword/forget_password_screen.dart';
@@ -65,8 +66,18 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
             password: _passTextController.text.trim().toLowerCase(),
           );
           Navigator.canPop(context) ? Navigator.pop(context) : null;
+        }catch (error)
+        {
+          setState(() {
+            _isLoading = false;
+          });
+          GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+          print('error occurred $error');
         }
       }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -195,10 +206,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         ),
                         const SizedBox(height: 10.0,),
                         MaterialButton(
-                            onPressed: () {},
-                          color: Colors.cyan,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
+                            onPressed: _submitFormOnLogin,
+                            color: Colors.cyan,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(13),
                           ),
                           child: const Padding(
