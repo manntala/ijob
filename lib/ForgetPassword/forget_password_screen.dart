@@ -101,6 +101,29 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                     ),
                   ),
                 ),
+                const SizedBox(height: 60.0,),
+                MaterialButton(
+                  onPressed: () {
+                    // Create ForgetPassSubmitForm
+                  },
+                  color: Colors.cyan,
+                  elevation: 8.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13.0),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
+                    child: Text(
+                      'Reset now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
