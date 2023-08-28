@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ijob_flutter/Services/global_variables.dart';
 
@@ -19,7 +20,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   final TextEditingController _passTextController = TextEditingController(text: '');
 
   final FocusNode _passFocusNode = FocusNode();
+  bool _isLoading = false;
   late bool _obscureText = true;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -48,7 +51,23 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     super.initState();
   }
 
-  void _submitFormOnLogin()
+  void _submitFormOnLogin() async
+  {
+    final isValid = _loginFormKey.currentState!.validate();
+    if(isValid)
+      {
+        setState(() {
+          _isLoading = true;
+        });
+        try {
+          await _auth.signInWithEmailAndPassword(
+            email:  _emailTextController.text.trim().toLowerCase(),
+            password: _passTextController.text.trim().toLowerCase(),
+          );
+          Navigator.canPop(context) ? Navigator.pop(context) : null;
+        }
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
