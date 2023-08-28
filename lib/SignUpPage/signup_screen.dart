@@ -15,6 +15,12 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
 
+  final TextEditingController _fullNameController = TextEditingController(text: '');
+  final TextEditingController _emailTextController = TextEditingController(text: '');
+
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
   final _signUpFormKey = GlobalKey<FormState>();
   File? imageFile;
 
@@ -51,7 +57,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
       body: Stack(
         children: [
           CachedNetworkImage(
-            imageUrl: signUpUrlImage,
+            imageUrl: loginUrlImage,
             placeholder: (context, url) => Image.asset(
               'assets/images/wallpaper.jpg',
               fit: BoxFit.fill,
@@ -91,6 +97,68 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                   ? const Icon(Icons.camera_enhance_sharp, color: Colors.cyan, size: 30.0,)
                                   : Image.file(imageFile!, fit: BoxFit.fill,)
                               ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0,),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocusNode),
+                          keyboardType: TextInputType.name,
+                          controller: _fullNameController,
+                          validator: (value){
+                            if(value!.isEmpty)
+                            {
+                              return 'This is a required field';
+                            }
+                            else
+                            {
+                              return null;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            hintText: 'Full / Company name',
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0,),
+                        TextFormField(
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () => FocusScope.of(context).requestFocus(_passwordFocusNode),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailTextController,
+                          validator: (value){
+                            if(value!.isEmpty || !value.contains('@'))
+                            {
+                              return 'Please enter a valid email address';
+                            }
+                            else
+                            {
+                              return null;
+                            }
+                          },
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.white),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red),
                             ),
                           ),
                         ),
