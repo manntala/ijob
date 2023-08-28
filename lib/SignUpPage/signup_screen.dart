@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../Services/global_variables.dart';
 
@@ -29,6 +30,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   final _signUpFormKey = GlobalKey<FormState>();
   bool _obscureText = true;
   File? imageFile;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -277,6 +279,75 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                             ),
                             errorBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 25.0,),
+                        _isLoading
+                        ?
+                        Center(
+                          child: Container(
+                            width: 70.0,
+                            height: 70.0,
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                        :
+                        MaterialButton(
+                          onPressed: () {
+                            // Create submitFormOnSignUp
+                          },
+                          color: Colors.cyan,
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13.0),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'SignUp',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40.0,),
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Already have an account?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: '     ',
+                                ),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.canPop(context)
+                                    ? Navigator.pop(context)
+                                    : null,
+                                  text: 'Login',
+                                  style: const TextStyle(
+                                    color: Colors.cyan,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
