@@ -71,8 +71,6 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
