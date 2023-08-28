@@ -15,15 +15,32 @@ class JobScreen extends StatefulWidget {
 
    @override
    Widget build(BuildContext context) {
-     return Scaffold(
-       appBar: AppBar(title: const Text('Jobs Screen'),),
-       body: ElevatedButton(
-         onPressed: (){
-           _auth.signOut();
-           Navigator.canPop(context) ? Navigator.pop(context) : null;
-           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const UserState()));
-         },
-         child: const Text('Logout'),
+     return Container(
+       decoration: BoxDecoration(
+         gradient: LinearGradient(
+           colors: [Colors.deepOrange.shade300, Colors.blueAccent],
+           begin: Alignment.centerLeft,
+           end: Alignment.centerRight,
+           stops: const [0.2, 0.9],
+         ),
+       ),
+       child: Scaffold(
+         backgroundColor: Colors.transparent,
+         appBar: AppBar(
+           title: const Text('Job Screen'),
+           centerTitle: true,
+           flexibleSpace: Container(
+             decoration: BoxDecoration(
+               gradient: LinearGradient(
+                 colors: [Colors.deepOrange.shade300, Colors.blueAccent],
+                 begin: Alignment.centerLeft,
+                 end: Alignment.centerRight,
+                 stops: const [0.2, 0.9],
+               ),
+             ),
+           ),
+         ),
+
        ),
      );
    }
