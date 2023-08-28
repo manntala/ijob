@@ -1,4 +1,6 @@
- import 'package:flutter/material.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:ijob_flutter/user_state.dart';
 
 class JobScreen extends StatefulWidget {
 
@@ -8,10 +10,21 @@ class JobScreen extends StatefulWidget {
  }
 
  class _JobScreenState extends State<JobScreen> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
    @override
    Widget build(BuildContext context) {
      return Scaffold(
        appBar: AppBar(title: const Text('Jobs Screen'),),
+       body: ElevatedButton(
+         onPressed: (){
+           _auth.signOut();
+           Navigator.canPop(context) ? Navigator.pop(context) : null;
+           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const UserState()));
+         },
+         child: const Text('Logout'),
+       ),
      );
    }
  }
