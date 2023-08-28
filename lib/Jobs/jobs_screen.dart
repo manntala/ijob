@@ -1,6 +1,7 @@
  import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ijob_flutter/user_state.dart';
+import 'package:ijob_flutter/Widgets/bottom_nav_bar.dart';
 
 class JobScreen extends StatefulWidget {
 
@@ -25,6 +26,7 @@ class JobScreen extends StatefulWidget {
          ),
        ),
        child: Scaffold(
+         bottomNavigationBar: BottomNavigationBarForApp(indexNum: 0),
          backgroundColor: Colors.transparent,
          appBar: AppBar(
            title: const Text('Job Screen'),
@@ -40,7 +42,6 @@ class JobScreen extends StatefulWidget {
              ),
            ),
          ),
-
        ),
      );
    }
