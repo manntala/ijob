@@ -3,8 +3,12 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ijob_flutter/Services/global_methods.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Services/global_variables.dart';
@@ -34,7 +38,9 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   final _signUpFormKey = GlobalKey<FormState>();
   bool _obscureText = true;
   File? imageFile;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLoading = false;
+  String? imageUrl;
 
   @override
   void dispose() {
@@ -148,6 +154,63 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
         });
       }
   }
+
+  void _submitFormOnSignUp() async {
+    final isValid = _signUpFormKey.currentState!.validate();
+    if (isValid) {
+      if (imageFile == null) {
+        GlobalMethod.showErrorDialog(
+          error: 'Image is required',
+          ctx: context,
+        );
+        return;
+      }
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        // Create user with email and password
+        await _auth.createUserWithEmailAndPassword(
+          email: _emailTextController.text.trim().toLowerCase(),
+          password: _passTextController.text.trim(),
+        );
+
+        // Get the current user's UID
+        final User? user = _auth.currentUser;
+        final _uid = user!.uid;
+
+        // Upload image to Firebase Storage
+        final ref = FirebaseStorage.instance.ref().child('userImages').child(_uid + '.jpg');
+        await ref.putFile(imageFile!);
+        final imageUrl = await ref.getDownloadURL();
+
+        // Additional user data
+        final userData = {
+          'email': _emailTextController.text.trim().toLowerCase(),
+          'imageUrl': imageUrl,
+          // Add more data fields as needed
+        };
+
+        // Save user data to Firestore
+        final userRef = FirebaseFirestore.instance.collection('users').doc(_uid);
+        await userRef.set(userData);
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        // Perform any navigation or other actions after successful sign-up
+      } catch (error) {
+        // Handle errors appropriately
+        print('Error during sign-up: $error');
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -386,7 +449,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                         :
                         MaterialButton(
                           onPressed: () {
-                            // Create submitFormOnSignUp
+                            _submitFormOnSignUp();
                           },
                           color: Colors.cyan,
                           elevation: 8.0,
