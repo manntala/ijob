@@ -11,8 +11,12 @@ class UploadJobNow extends StatefulWidget {
 class _UploadJobNowState extends State<UploadJobNow> {
 
   final TextEditingController _jobCategoryController = TextEditingController(text: 'Select Job Category');
+  final TextEditingController _jobTitleController = TextEditingController();
+  final TextEditingController _jobDescriptionController = TextEditingController();
+  final TextEditingController _deadlineDateController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   Widget _textTitles({required String label})
   {
@@ -58,7 +62,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
           style: const TextStyle(
             color: Colors.white,
           ),
-          maxLines: valueKey == 'Job Description' ? 3 : 1,
+          maxLines: valueKey == 'JobDescription' ? 3 : 1,
           maxLength: maxLength,
           keyboardType: TextInputType.text,
           decoration: const InputDecoration(
@@ -151,7 +155,68 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               fct: (){},
                               maxLength: 100,
                             ),
+                            _textTitles(label: 'Job Title :'),
+                            _textFormField(
+                              valueKey: 'JobTitle',
+                              controller: _jobTitleController,
+                              enabled: true,
+                              fct: (){},
+                              maxLength: 100,
+                            ),
+                            _textTitles(label: 'Job Description :'),
+                            _textFormField(
+                              valueKey: 'JobDescription',
+                              controller: _jobDescriptionController,
+                              enabled: true,
+                              fct: (){},
+                              maxLength: 100,
+                            ),
+                            _textTitles(label: 'Job Deadline Date:'),
+                            _textFormField(
+                              valueKey: 'Deadline',
+                              controller: _deadlineDateController,
+                              enabled: true,
+                              fct: (){},
+                              maxLength: 100,
+                            ),
                           ],
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: _isLoading
+                          ? const CircularProgressIndicator()
+                          : MaterialButton(
+                          onPressed: (){},
+                          color: Colors.black,
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Post Now',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    // fontFamily: 'Signatra',
+                                  ),
+                                ),
+                                SizedBox(width: 9,),
+                                Icon(
+                                  Icons.upload_file,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
