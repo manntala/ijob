@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../Persistent/persistent.dart';
 import '../Widgets/bottom_nav_bar.dart';
 
 class UploadJobNow extends StatefulWidget {
+  const UploadJobNow({super.key});
 
   @override
   State<UploadJobNow> createState() => _UploadJobNowState();
@@ -14,9 +18,12 @@ class _UploadJobNowState extends State<UploadJobNow> {
   final TextEditingController _jobTitleController = TextEditingController();
   final TextEditingController _jobDescriptionController = TextEditingController();
   final TextEditingController _deadlineDateController = TextEditingController();
+  final TextEditingController _jobCategoryList = TextEditingController();
+
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   Widget _textTitles({required String label})
   {
@@ -82,6 +89,99 @@ class _UploadJobNowState extends State<UploadJobNow> {
       ),
     );
   }
+
+  // _showTaskCategoriesDialog({required Size size}) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (ctx) {
+  //       return AlertDialog(
+  //         backgroundColor: Colors.black54,
+  //         title: const Text(
+  //           'Job Category',
+  //           textAlign: TextAlign.center,
+  //           style: TextStyle(fontSize: 20, color: Colors.white),
+  //         ),
+  //         content: Container(
+  //           width: size.width * 0.9,
+  //           child: ListView.builder(
+  //             shrinkWrap: true,
+  //             itemCount: Persistent.jobCategoryList.length,
+  //             itemBuilder: (ctx, index) {
+  //               return InkWell(
+  //                 onTap: () {
+  //                   setState(() {
+  //                     // jobCategoryFilter = Persistent.jobCategoryList[index];
+  //                   });
+  //                   Navigator.canPop(context) ? Navigator.pop(context) : null;
+  //                   print(
+  //                       'jobCategoryList[index], ${Persistent.jobCategoryList[index]}'
+  //                   );
+  //                 },
+  //                 child: Row(
+  //                   children: [
+  //                     const Icon(
+  //                       Icons.arrow_right_alt_outlined,
+  //                       color: Colors.grey,
+  //                     ),
+  //                     Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: Text(
+  //                         Persistent.jobCategoryList[index],
+  //                         style: const TextStyle(
+  //                           color: Colors.grey,
+  //                           fontSize: 16,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  void _saveFormData() async {
+    if (_formKey.currentState!.validate()) {
+      await _initialization; // Wait for Firebase initialization to complete
+
+      String jobCategory = _jobCategoryController.text;
+      String jobTitle = _jobTitleController.text;
+      String jobDescription = _jobDescriptionController.text;
+      String deadlineDate = _deadlineDateController.text;
+
+      try {
+        // Reference to the Firestore collection where you want to save the data
+        CollectionReference jobsCollection = FirebaseFirestore.instance.collection('jobs');
+
+        // Add a new document to the collection
+        await jobsCollection.add({
+          'jobCategory': jobCategory,
+          'jobTitle': jobTitle,
+          'jobDescription': jobDescription,
+          'deadlineDate': deadlineDate,
+        });
+
+        // Clear the form fields
+        _jobCategoryController.clear();
+        _jobTitleController.clear();
+        _jobDescriptionController.clear();
+        _deadlineDateController.clear();
+
+        // Show a success message or navigate to another screen
+        // For example: ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Job posted successfully')));
+      } catch (e) {
+        // Handle any errors that might occur during the data saving process
+        print('Error saving data: $e');
+        // Show an error message to the user
+        // For example: ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred')));
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +289,9 @@ class _UploadJobNowState extends State<UploadJobNow> {
                         child: _isLoading
                           ? const CircularProgressIndicator()
                           : MaterialButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            _saveFormData();
+                          },
                           color: Colors.black,
                           elevation: 8,
                           shape: RoundedRectangleBorder(
